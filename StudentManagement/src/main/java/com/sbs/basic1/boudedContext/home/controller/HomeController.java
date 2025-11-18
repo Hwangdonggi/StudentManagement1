@@ -1,14 +1,52 @@
 package com.sbs.basic1.boudedContext.home.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller // 스프링부트한테 이 클래스가 컨트롤러임을 알려줌
+@Controller
 public class HomeController {
-  @GetMapping("/home/main") // /home/main 주소로 GET 요청이 오면 이 메서드가 실행됨
-  @ResponseBody // 이 메서드의 실행된 결과를 body에 담아서 응답으로 보냄
-  public String showMain() {
-    return "안녕하세요, 홈 페이지입니다.";
-  }
+
+    // 메인 홈페이지
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("title", "학생 출결관리 시스템");
+        return "index"; // index.html
+    }
+
+    // 로그인 페이지
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login"; // login.html
+    }
+
+    // 로그인 처리 (일단 형식만)
+    @PostMapping("/login")
+    public String loginSubmit(String username, String password, Model model) {
+        // TODO: 나중에 DB랑 연동해서 로그인 검증
+        System.out.println("로그인 요청: " + username + " / " + password);
+        model.addAttribute("message", "아직 로그인 기능은 구현 전입니다.");
+        return "login";
+    }
+
+    // 회원가입 페이지
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register"; // register.html
+    }
+
+    // 회원가입 처리 (형식만)
+    @PostMapping("/register")
+    public String registerSubmit(
+            String nickname,
+            String username,
+            String password,
+            Model model
+    ) {
+        // TODO: 나중에 DB에 저장
+        System.out.println("회원가입 요청: " + nickname + " / " + username);
+        model.addAttribute("message", "아직 회원가입 기능은 구현 전입니다.");
+        return "register";
+    }
 }
