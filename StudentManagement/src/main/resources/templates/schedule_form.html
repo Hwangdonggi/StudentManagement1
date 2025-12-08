@@ -1,0 +1,76 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container">
+    <h5 class="my-3 border-bottom pb-2">스케줄 등록</h5>
+
+    <!-- th:action 은 현재 URL(/question/schedule)에 POST로 보냄 -->
+    <form th:action th:object="${scheduleForm}" method="POST">
+        <!-- Validation 에러 표시 템플릿 불러오기 -->
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+
+        <div class="mb-3">
+            <label for="date" class="form-label">날짜</label>
+            <input required type="date"
+                   th:field="*{date}"
+                   class="form-control"
+                   placeholder="날짜 선택">
+        </div>
+
+        <div class="mb-3">
+            <label for="dayOfWeek" class="form-label">요일</label>
+            <select required th:field="*{dayOfWeek}" class="form-select">
+                <option value="">요일 선택</option>
+                <option value="MON">월</option>
+                <option value="TUE">화</option>
+                <option value="WED">수</option>
+                <option value="THU">목</option>
+                <option value="FRI">금</option>
+                <option value="SAT">토</option>
+                <option value="SUN">일</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="subject" class="form-label">과목 / 수업명</label>
+            <input required maxlength="100"
+                   type="text"
+                   class="form-control"
+                   th:field="*{subject}"
+                   placeholder="과목명을 입력해주세요">
+        </div>
+
+        <div class="mb-3">
+            <label for="startTime" class="form-label">시작 시간</label>
+            <input required type="time"
+                   th:field="*{startTime}"
+                   class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="endTime" class="form-label">종료 시간</label>
+            <input required type="time"
+                   th:field="*{endTime}"
+                   class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="room" class="form-label">강의실</label>
+            <input maxlength="50"
+                   type="text"
+                   th:field="*{room}"
+                   class="form-control"
+                   placeholder="강의실 또는 장소를 입력해주세요">
+        </div>
+
+        <div class="mb-3">
+            <label for="memo" class="form-label">메모</label>
+            <textarea maxlength="2000"
+                      th:field="*{memo}"
+                      class="form-control"
+                      rows="3"
+                      placeholder="추가 메모 입력 (선택)"></textarea>
+        </div>
+
+        <input type="submit" value="저장하기" class="btn btn-primary my-2">
+    </form>
+</div>
+</html>

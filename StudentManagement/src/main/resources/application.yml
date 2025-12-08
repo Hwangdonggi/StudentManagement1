@@ -1,38 +1,27 @@
 spring:
   application:
-    name: qnaService
-  output:
-    ansi:
-      enabled: always # 콘솔창 색상 변경
-  profiles:
-    active: test # dev, test, prod
-#  datasource:
-#    url: jdbc:h2:./db_dev;MODE=MySQL
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
+    name: studentManagement
+
   datasource:
-    # 데이터베이스 연결 URL
-    url: jdbc:mariadb://localhost:3306/qnaService_dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
-    username: root
-    password:
-    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:h2:./db_dev;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 1234
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
   jpa:
-    show-sql: true # 콘솔창에 SQL문을 출력
     hibernate:
-      ddl-auto: update # update, create, create-drop, validate
+      ddl-auto: update   # 개발 중: 엔티티 보고 자동으로 테이블 생성/수정
     properties:
       hibernate:
-        format_sql: true # SQL문을 보기 좋게 출력
-        use_sql_comments: true # SQL문에 주석을 추가
-        highlight_sql: true # SQL문에 색상을 추가
+        format_sql: true
+    show-sql: true
 
-# LOGGING
-# SQL 로그를 조금 더 자세히 출력하기 위한 설정
 logging:
   level:
-    org.hibernate.orm.jdbc.bind: TRACE
-    org.hibernate.orm.jdbc.extract: TRACE
-
-server:
-  port: 8030
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace

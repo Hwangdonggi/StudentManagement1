@@ -2,5 +2,6 @@ spring:
 #  datasource:
 #    url: jdbc:h2:./db_test;MODE=MySQL
   datasource:
-    url: jdbc:mariadb://localhost:3306/qnaService_test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/qnaService_dev?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+
 
