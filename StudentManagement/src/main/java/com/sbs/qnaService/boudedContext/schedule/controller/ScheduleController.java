@@ -43,23 +43,30 @@ public class ScheduleController {
         return "schedule_list";
     }
 
+    // =========================
+    // QuestionController 스타일로 변경된 부분
+    // =========================
+
     /**
-     * 스케줄 등록 폼
+     * ✅ 스케줄 등록 폼 페이지 (GET)
+     * QuestionController: @GetMapping("/schedule") 와 동일한 의미로 맞춤
+     * 결과적으로 URL은 /schedule/schedule 이 아니라 /schedule (아래 매핑이 "/")
      */
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/create")
-    public String create(ScheduleForm scheduleForm) {
+    @GetMapping("")
+    public String scheduleForm(ScheduleForm scheduleForm) {
         return "schedule_form";
     }
 
     /**
-     * 스케줄 등록 처리
+     * ✅ 스케줄 등록 처리 (POST)
+     * QuestionController: @PostMapping("/schedule") 와 동일한 의미로 맞춤
      */
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/create")
-    public String create(@Valid ScheduleForm scheduleForm,
-                         BindingResult bindingResult,
-                         Principal principal) {
+    @PostMapping("")
+    public String scheduleSubmit(@Valid ScheduleForm scheduleForm,
+                                 BindingResult bindingResult,
+                                 Principal principal) {
 
         if (bindingResult.hasErrors()) {
             return "schedule_form";
@@ -68,7 +75,8 @@ public class ScheduleController {
         SiteUser siteUser = userService.getUser(principal.getName());
         scheduleService.create(scheduleForm, siteUser);
 
-        return "redirect:/schedule/list";
+        // ✅ QuestionController와 동일하게 redirect 경로 맞춤
+        return "redirect:/question/schedule";
     }
 
     /**
@@ -82,12 +90,10 @@ public class ScheduleController {
 
         Schedule schedule = scheduleService.getSchedule(id);
 
-        // 작성자 체크
         if (!schedule.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
 
-        // 기존 값 폼에 채워 넣기
         scheduleForm.setDate(schedule.getDate());
         scheduleForm.setDayOfWeek(schedule.getDayOfWeek());
         scheduleForm.setSubject(schedule.getSubject());
@@ -121,6 +127,7 @@ public class ScheduleController {
 
         scheduleService.modify(schedule, scheduleForm);
 
+        // 수정 후 이동은 기존대로 목록으로
         return "redirect:/schedule/list";
     }
 
